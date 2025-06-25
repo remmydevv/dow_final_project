@@ -1,0 +1,23 @@
+import { createBrowserRouter } from "react-router-dom"
+import Layout from "./layouts/Layout"
+import Home from "./views/Home"
+import Arriendos from "./views/Arriendos"
+
+
+export const router = createBrowserRouter([
+    //aqui colocaremos las rutas para movernos en nuestra app react
+    {
+        path: '/',              // la url usara como base este layout (NavBar y Outlet)
+        element: <Layout/>,
+        children:[
+            {
+                index:true, //esta seria nuestra portada
+                element: <Home></Home>
+            },
+            {
+                path: 'arriendos',                  //esto es muy distinto a los endPoints de nuestro Api router
+                element: <Arriendos></Arriendos>
+            },
+        ]
+    }
+])
