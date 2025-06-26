@@ -1,7 +1,8 @@
 import { createBrowserRouter } from "react-router-dom"
 import Layout from "./layouts/Layout"
 import Home from "./views/Home"
-import Arriendos from "./views/Arriendos"
+import Arriendos, {louder as loaderAriendos} from "./views/Arriendos"
+import CrearArriendo from "./views/CrearArriendo"
 
 
 export const router = createBrowserRouter([
@@ -16,7 +17,13 @@ export const router = createBrowserRouter([
             },
             {
                 path: 'arriendos',                  //esto es muy distinto a los endPoints de nuestro Api router
-                element: <Arriendos></Arriendos>
+                element: <Arriendos></Arriendos>,
+                loader: loaderAriendos ,
+
+            },
+            {
+                path: 'arriendos/crear',                  //esto es muy distinto a los endPoints de nuestro Api router
+                element: <CrearArriendo></CrearArriendo>
             },
         ]
     }

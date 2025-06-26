@@ -1,4 +1,18 @@
+import { Link, useLoaderData } from "react-router-dom";
+import { getArriendos } from "../services/ArriendoService";
+import type { Arriendo } from "../types/Arriendo";
+import ArriendoRow from "../components/ArriendoRow";
+
+export async function louder(){
+	//llamamos a la funcion que lista la lista (xd) de arriendos
+	const arriendos = await getArriendos()
+	return arriendos
+
+}
+
 export default function Arriendos (){
+	const arriendos = useLoaderData() as Arriendo[]
+	console.log(arriendos)
     return (
         <>
         <div className="container-fluid">
@@ -13,52 +27,27 @@ export default function Arriendos (){
 					</nav>
 				</div>
 				<div className="col-4 text-end">
-					<button className="btn btn-primary">Nuevo arriendo</button>
+					<Link to="/arriendos/crear"className="btn btn-primary">Nuevo arriendo</Link>
 				</div>
 			</div>
 			<div className="table-responsive">
 				<table className="table table-bordered table-striped table-hover">
 					<thead className="table-dark">
 						<tr>
+							<th>N°</th>
 							<th>Rut</th>
 							<th>Fecha Inicio</th>
 							<th>Fecha Final</th>
+							<th>Patente</th>
 							<th>Tipo vehiculo</th>
-							<th>Categoría</th>
-							<th></th>
+							<th>Nombre Cliente</th>
+							<th>Editar</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td className="text-center">1</td>
-							<td>Laptop Gaming Ryzen 7</td>
-							<td className="text-end">$1.200.000</td>
-							<td className="text-end">10</td>
-							<td>Computadores</td>
-							<td className="text-center">
-								<button className="btn btn-sm btn-warning me-1">
-									<i className="bi bi-pencil-square"> Devolver</i>
-								</button>
-								<button className="btn btn-sm btn-danger">
-									<i className="bi bi-trash3">Borrar</i>
-								</button>
-							</td>
-						</tr>
-						<tr>
-							<td className="text-center">2</td>
-							<td>Desktop Intel i9</td>
-							<td className="text-end">$1.500.000</td>
-							<td className="text-end">8</td>
-							<td>Computadores</td>
-							<td className="text-center">
-								<button className="btn btn-sm btn-warning me-1">
-									<i className="bi bi-pencil-square">Devolver</i>
-								</button>
-								<button className="btn btn-sm btn-danger">
-									<i className="bi bi-trash3">Borrar</i>
-								</button>
-							</td>
-						</tr>
+						{arriendos.map((arriendo, index)=>(
+							<ArriendoRow key={arriendo.id} index={index} arriendo={arriendo}></ArriendoRow>
+						))}
 					</tbody>
 				</table>
 			</div>
