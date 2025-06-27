@@ -1,6 +1,6 @@
 import { createBrowserRouter } from "react-router-dom"
 import Layout from "./layouts/Layout"
-import Home from "./views/Home"
+import Home, {loader as loaderTipoVehiculo} from "./views/Home"
 import Arriendos, {louder as loaderAriendos} from "./views/Arriendos"
 import CrearArriendo from "./views/CrearArriendo"
 
@@ -13,7 +13,8 @@ export const router = createBrowserRouter([
         children:[
             {
                 index:true, //esta seria nuestra portada
-                element: <Home></Home>
+                element: <Home></Home>,
+                loader: loaderTipoVehiculo,
             },
             {
                 path: 'arriendos',                  //esto es muy distinto a los endPoints de nuestro Api router

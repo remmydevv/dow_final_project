@@ -6,14 +6,23 @@ type arriendoRowProps = {
 }
 
 
-
 export default function ArriendoRow({index, arriendo}: arriendoRowProps) {
+
+    const fechaLimpia = new Date(arriendo.fechaInicio).toLocaleDateString('es-CL', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    })
+
+    const mostrarFechaFin = arriendo.fechaFin
+  ? new Date(arriendo.fechaFin).toLocaleDateString('es-CL', { year: 'numeric', month: 'long', day: 'numeric' })
+  : 'Arriendo Activo!';
   return (
             <tr>
             <td className="text-center">{index + 1}</td>
             <td>{arriendo.rutCliente}</td>
-            <td>12/06/2025</td>
-            <td className="text-end">16/06/2025</td>
+            <td>{fechaLimpia}</td>
+            <td className="text-end">{mostrarFechaFin}</td>
             <td className="text-end">{arriendo.patenteVehiculo}</td>
             <td>{arriendo.tipoVehiculo}</td>
             <td>{arriendo.nombreCliente}</td>
