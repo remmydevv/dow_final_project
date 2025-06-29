@@ -7,6 +7,9 @@ import { col, fn, Op } from 'sequelize'
 //lista todos los provisorios (categorias)
 export const getArriendos = async (request: Request, response: Response) =>{
     const arriendos = await Arriendo.findAll()
+    //response.json({data: arriendos})
+
+    //await new Promise(resolve=> setTimeout(resolve, 10)) 
     response.json({data: arriendos})
 }
 
@@ -23,6 +26,8 @@ export const getArriendosTerminados = async (request: Request, response: Respons
     response.json({data:arriendos})
 }
 
+
+
 //lista todos los provisorios con cantidad de algo (producto))(categorias)
 export const getArriendosTipoVehiculo = async (request: Request, response: Response) =>{
     const arriendos = await Arriendo.findAll({
@@ -33,9 +38,13 @@ export const getArriendosTipoVehiculo = async (request: Request, response: Respo
 }
 
 
-//Crea un provisorio (categoria)
+//Crea un arriendo 
 export const crearArriendo = async (request: Request, response: Response) =>{
-    const arriendoNuevo = await Arriendo.create(request.body)
+    const arriendoNuevo = await Arriendo.create({
+        ...request.body,
+        fechaInicio: new Date(), //fecha del sistema
+        fechaFin: null
+    })
     response.json({data: arriendoNuevo})
 }
 
@@ -43,10 +52,9 @@ export const crearArriendo = async (request: Request, response: Response) =>{
 export const devolverArriendo = async (request: Request, response: Response) =>{
     const {id} = request.params
     const arriendo = await Arriendo.findByPk(id)
-    await arriendo.update({fecha_fin: new Date()})
-    
-    response.json({data:arriendo})
-}
+    await arriendo.update({fechaFin: new Date()})  //!!!MUY IMPORTANTE USAR NOMBRES!!!
+    response.json({data:arriendo})                 //!!DE LOS CAMPOS EN camelCase!!!
+}                                                  //!!SEQUELIZE los transforma para la DB!!!
 
 //Borrar un provisorio (categoria)
 export const borrarArriendo = async (request: Request, response: Response) =>{

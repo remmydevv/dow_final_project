@@ -21,6 +21,7 @@ export default function Home (){
           <ArriendoTipoRow key={index} arriendoTipo={arriendoTipo} ></ArriendoTipoRow>
         ))}
       </div>
+
     </>
     )
 }

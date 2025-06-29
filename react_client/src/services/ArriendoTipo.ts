@@ -4,7 +4,7 @@ import axios from "axios"
 
 export async function getArriendosTipoVehiculo (){
     try {
-        const url = "http://localhost:3000/api/arriendos/cantidad-tipo-vehiculo"
+        const url = `${import.meta.env.VITE_API_URL}/arriendos/cantidad-tipo-vehiculo`
         const {data:arriendos} = await axios.get(url)
 
         const resultado = safeParse (ArriendosTipoVehiculo, arriendos.data)

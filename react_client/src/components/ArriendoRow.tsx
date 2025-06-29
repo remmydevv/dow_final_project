@@ -3,10 +3,12 @@ import type { Arriendo } from "../types/Arriendo"
 type arriendoRowProps = {
     index:number,
     arriendo: Arriendo
+    borrar: (arriendoId: number) => void
+    devolver: (arriendoId: number) => void
 }
 
 
-export default function ArriendoRow({index, arriendo}: arriendoRowProps) {
+export default function ArriendoRow({index, arriendo, borrar, devolver}: arriendoRowProps) {
 
     const fechaLimpia = new Date(arriendo.fechaInicio).toLocaleDateString('es-CL', {
     year: 'numeric',
@@ -27,10 +29,10 @@ export default function ArriendoRow({index, arriendo}: arriendoRowProps) {
             <td>{arriendo.tipoVehiculo}</td>
             <td>{arriendo.nombreCliente}</td>
             <td className="text-center">
-                <button className="btn btn-sm btn-warning me-1">
+                <button className="btn btn-sm btn-warning me-1" onClick={()=> devolver(arriendo.id)}>
                     <i className="bi bi-pencil-square"> Devolver</i>
                 </button>
-                <button className="btn btn-sm btn-danger">
+                <button className="btn btn-sm btn-danger" onClick={()=>borrar(arriendo.id)}>
                     <i className="bi bi-trash3">Borrar</i>
                 </button>
             </td>
@@ -38,3 +40,7 @@ export default function ArriendoRow({index, arriendo}: arriendoRowProps) {
 
   )
 }
+
+
+
+

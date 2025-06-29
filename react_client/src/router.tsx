@@ -1,8 +1,9 @@
 import { createBrowserRouter } from "react-router-dom"
 import Layout from "./layouts/Layout"
 import Home, {loader as loaderTipoVehiculo} from "./views/Home"
-import Arriendos, {louder as loaderAriendos} from "./views/Arriendos"
-import CrearArriendo from "./views/CrearArriendo"
+import Arriendos, {loader as loaderAriendos} from "./views/Arriendos"
+import CrearArriendo, {action as actionCrearAriendo} from "./views/CrearArriendo"
+import Loader from "./components/Loader"
 
 
 export const router = createBrowserRouter([
@@ -10,6 +11,7 @@ export const router = createBrowserRouter([
     {
         path: '/',              // la url usara como base este layout (NavBar y Outlet)
         element: <Layout/>,
+        HydrateFallback:Loader,
         children:[
             {
                 index:true, //esta seria nuestra portada
@@ -24,7 +26,8 @@ export const router = createBrowserRouter([
             },
             {
                 path: 'arriendos/crear',                  //esto es muy distinto a los endPoints de nuestro Api router
-                element: <CrearArriendo></CrearArriendo>
+                element: <CrearArriendo></CrearArriendo>,
+                action: actionCrearAriendo
             },
         ]
     }
