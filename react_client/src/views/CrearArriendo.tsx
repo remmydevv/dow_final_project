@@ -26,7 +26,8 @@ export default function CrearArriendo() {
 	};
 
 	return (
-		<div className="d-flex justify-content-center align-items-center min-vh-100 bg-light">
+		<div className="d-flex justify-content-center align-items-center min-vh-100 bg-light"
+			style={{backgroundImage: "url(/img/bg-red.jpg)", backgroundSize: "cover", backgroundPosition: "center"  }}>
 			<div className="col-md-6">
 				<div className="card shadow-lg border-0">
 					<div className="card-header bg-primary text-white d-flex justify-content-between align-items-center">

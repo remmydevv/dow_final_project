@@ -20,7 +20,8 @@ export default function CrearArriendo() {
 	};
 
 	return (
-		<div className="d-flex justify-content-center align-items-center min-vh-100 bg-light">
+		<div className="d-flex justify-content-center align-items-center min-vh-100 bg-light"
+			style={{backgroundImage: "url(/img/bg-red.jpg)", backgroundSize: "cover", backgroundPosition: "center"  }}>
 			<div className="col-md-6">
 
 				{/* Botón Volver */}
