@@ -1,51 +1,60 @@
-import { Form, Link, redirect, type ActionFunctionArgs} from "react-router-dom";
+import { Form, Link, redirect, type ActionFunctionArgs } from "react-router-dom";
 import { useRef } from "react";
 import { usuarioCrear } from "../services/UsuarioService";
 
-export async function action({request}: ActionFunctionArgs){
-	const formData = Object.fromEntries(await request.formData()) //sacamos data del form
-	const resultado = await usuarioCrear(formData) //llamamos a la function que inserta los datos
+export async function action({ request }: ActionFunctionArgs) {
+	const formData = Object.fromEntries(await request.formData());
+	const resultado = await usuarioCrear(formData);
 
-	if (!resultado?.success){
-		return resultado
-	} 							
-	return redirect('/login')					//redireccionamos para ver el new listado
+	if (!resultado?.success) {
+		return resultado;
+	}
+	return redirect("/login");
 }
 
+export default function CrearArriendo() {
+	const formRef = useRef<HTMLFormElement | null>(null);
 
-export default function CrearArriendo (){
-		  
-	const formRef = useRef<HTMLFormElement | null>(null)
+	const handleReset = () => {
+		formRef.current?.reset();
+	};
 
-	const handleReset = ()=>{
-		formRef.current?.reset()  //reseteamos el formulario 
-	}
+	return (
+		<div className="d-flex justify-content-center align-items-center min-vh-100 bg-light">
+			<div className="col-md-6">
 
-    return (
-        <>	<div className="text-center">
-            <h2>Nuevo Usuario</h2>
-			</div>
-				<div className="text-end">
-					<Link to="/usuario"className="btn btn-sm btn-danger">Volver a Usuarios</Link>
+				{/* Botón Volver */}
+				<div className="mb-3 text-start">
+					<Link to="/usuario" className="btn btn-outline-danger">
+						← Volver a Usuarios
+					</Link>
 				</div>
-			<div className="card">
-				<div className="card-body">
-					<Form method="POST" ref={formRef}>
-						<div className="mb-3">
-							<label className="form-label" htmlFor="gmail">Ingrese Gmail</label>
-							<input type="text" className="form-control" id="gmail" name="email" />
-						</div>
-						<div className="mb-3">
-							<label className="form-label" htmlFor="password">Crear Contraseña</label>
-							<input type="text" className= "form-control"id="password" name="password"/>
-						</div>
-						<div className="mb-3 text-end">
-							<button type="reset" className="btn btn-warning me-1" onClick={handleReset}>Restablecer</button>
-							<button type="submit" className="btn btn-primary">Agregar Usuario</button>
-						</div>
-					</Form>
+
+				{/* Tarjeta de formulario */}
+				<div className="card shadow-lg border-0">
+					<div className="card-header bg-success text-white">
+						<h4 className="mb-0">Registrar nuevo usuario</h4>
+					</div>
+					<div className="card-body p-4">
+						<Form method="POST" ref={formRef}>
+							<div className="mb-3">
+								<label className="form-label" htmlFor="gmail">Ingrese Gmail</label>
+								<input type="text" className="form-control" id="gmail" name="email" />
+							</div>
+
+							<div className="mb-3">
+								<label className="form-label" htmlFor="password">Crear Contraseña</label>
+								<input type="text" className="form-control" id="password" name="password" />
+							</div>
+
+							<div className="mb-3 text-end">
+								<button type="reset" className="btn btn-warning me-2" onClick={handleReset}>Restablecer</button>
+								<button type="submit" className="btn btn-success">Agregar Usuario</button>
+							</div>
+						</Form>
+					</div>
 				</div>
 			</div>
-        </>
-    )
+		</div>
+	);
 }
