@@ -1,4 +1,4 @@
-import {  object, number, string, type InferOutput, array, nullable, custom } from 'valibot';
+import {  object, number, string, type InferOutput, array, nullable, custom, pipe, nonEmpty, minLength, picklist } from 'valibot';
 
 // Esquema de arriendo con validación de fechas en formato Date
 export const ArriendoSchema = object({
@@ -36,10 +36,10 @@ export const ArriendoTipoVehiculoSchema = object ({
 })
 
 export const ArriendoFormSchema = object ({
-  patenteVehiculo: string(),
-  rutCliente: string(),
-  nombreCliente: string(),
-  tipoVehiculo: string(),
+  patenteVehiculo: pipe(string(), nonEmpty('Ingrese una patente.'), minLength(6,'Ingrese una patente correcta')), //usamos pipe cuando queremos mas de una regla para el dato
+  rutCliente: pipe(string(), nonEmpty('Ingresa un rut valido.')),
+  nombreCliente: pipe(string(), nonEmpty()),
+  tipoVehiculo: pipe(string(), nonEmpty(), picklist(['SUV', 'Camioneta', 'Sedan'])),
 
 })
 

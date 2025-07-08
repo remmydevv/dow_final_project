@@ -1,10 +1,9 @@
 import { safeParse } from "valibot"
 import { ArriendosTipoVehiculo } from "../types/Arriendo"
-import axios from "axios"
-
+import axios from "../services/AxiosInstance"
 export async function getArriendosTipoVehiculo (){
     try {
-        const url = `${import.meta.env.VITE_API_URL}/arriendos/cantidad-tipo-vehiculo`
+        const url = '/arriendos/cantidad-tipo-vehiculo'
         const {data:arriendos} = await axios.get(url)
 
         const resultado = safeParse (ArriendosTipoVehiculo, arriendos.data)

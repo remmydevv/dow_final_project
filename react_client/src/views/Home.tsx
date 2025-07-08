@@ -13,6 +13,7 @@ export default function Home (){
   	const arriendosTipo = useLoaderData() as ArriendoTipoVehiculo[]
     return (
       <>
+      
 
       {/* cards de vehiculos */}
       <h4 className="mb-4 mt-4">Arriendos por tipo de vehículo</h4>
@@ -20,7 +21,7 @@ export default function Home (){
         {arriendosTipo.map((arriendoTipo, index)=>(
           <ArriendoTipoRow key={index} arriendoTipo={arriendoTipo} ></ArriendoTipoRow>
         ))}
-      </div>
+      </div> 
 
     </>
     )

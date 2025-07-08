@@ -1,8 +1,13 @@
 import {Router} from 'express'
 import {getArriendos,  crearArriendo, borrarArriendo, getArriendosActivos, getArriendosTerminados, getArriendosTipoVehiculo, devolverArriendo} from './handlers/arriendos'
-import { getAuxi } from './handlers/auxi'
-const router = Router()
+import { cambiarContra, crearUsuario, logIn } from './handlers/usuarios'
+import { verificarToken } from './middleware/verificarToken'
 
+
+
+const router = Router()
+router.post('/login', logIn)
+router.use(verificarToken)
 
 //aqui tenemos cada endpoint con su dichoso handler
 //endPoint provisorio
@@ -22,7 +27,6 @@ router.patch('/arriendos/:id', devolverArriendo)  //el put cambia el objeto comp
 router.delete('/arriendos/:id', borrarArriendo)
 
 //endPoint de provisorio dos
-router.get('/auxi', getAuxi)
-
-
+router.post('/usuarios/crear', crearUsuario)
+router.patch('/usuarios/:gmail', cambiarContra)
 export default router

@@ -18,17 +18,17 @@ export default function ArriendoRow({index, arriendo, borrar, devolver}: arriend
 
     const mostrarFechaFin = arriendo.fechaFin
   ? new Date(arriendo.fechaFin).toLocaleDateString('es-CL', { year: 'numeric', month: 'long', day: 'numeric' })
-  : 'Arriendo Activo!';
+  : 'activo';
   return (
             <tr>
             <td className="text-center">{index + 1}</td>
             <td>{arriendo.rutCliente}</td>
             <td>{fechaLimpia}</td>
-            <td className="text-end">{mostrarFechaFin}</td>
-            <td className="text-end">{arriendo.patenteVehiculo}</td>
+            <td >{mostrarFechaFin}</td>
+            <td >{arriendo.patenteVehiculo}</td>
             <td>{arriendo.tipoVehiculo}</td>
             <td>{arriendo.nombreCliente}</td>
-            <td className="text-center">
+            <td className="text-start">
                 <button className="btn btn-sm btn-warning me-1" onClick={()=> devolver(arriendo.id)}>
                     <i className="bi bi-pencil-square"> Devolver</i>
                 </button>

@@ -1,44 +1,39 @@
-import { Link, useLoaderData, type LoaderFunctionArgs } from "react-router-dom";
-import {borrarAriendo, devolverArriendo, getArriendos, getArriendosActivos, getArriendosTerminados } from "../services/ArriendoService";
+import { Link, useLoaderData} from "react-router-dom";
+import {borrarAriendo, devolverArriendo, getArriendos } from "../services/ArriendoService";
 import type { Arriendo } from "../types/Arriendo";
 import ArriendoRow from "../components/ArriendoRow";
+import { useState } from "react";
 
-export async function loader({request}: LoaderFunctionArgs){
-	const url = new URL(request.url)
-	const estado = url.searchParams.get("estado")
-	if(estado === "activos"){
-		return await getArriendosActivos()
-	}
-	if(estado ==="terminados"){
-		return await getArriendosTerminados()
-	}
-	return await 	getArriendos()
+export async function loader (){
+	const arriendos = await getArriendos()
+	return arriendos
 }
 
 export default function Arriendos (){
-	const arriendos = useLoaderData() as Arriendo[]
-	//const [arriendos, setArriendos] = useState(arriendosIniciales) // guardamos en memoria
+	const arriendosIniciales = useLoaderData() as Arriendo[]
+	const [arriendos, setArriendos] = useState(arriendosIniciales)
 
 	const handlerDelete = async (arriendoId: number) =>{
-		await borrarAriendo(arriendoId)
-		window.location.reload()
-		//setArriendos(arriendos.filter(arriendo => arriendo.id !== arriendoId)) //creamos una nueva lista
+		await borrarAriendo(arriendoId) //borramos en la db
+		//window.location.reload()
+		setArriendos(arriendos.filter(arriendo => arriendo.id !== arriendoId))
 	}
 
 	const handlerDevolver = async (arriendoId: number)=>{
 		await devolverArriendo(arriendoId)
-		window.location.reload()
+		setArriendos(arriendos.map(a => a.id === arriendoId ? { ...a, fechaFin: new Date().toISOString() } : a))
+
 	}
     return (
         <>
         <div className="container-fluid">
-			<h2>Administrar arriendos</h2>
+			<h1>Admin Panel</h1>
 			<div className="row">
-				<div className="col-2 ">
-                <Link to="/arriendos?estado=activos" className="btn btn-sm btn-success me-1">
+				<div className="col-12 ">
+                <Link to="/arriendos/activos" className="btn btn-sm btn-success me-1">
                     <i className="bi bi-calendar2-check-fill"> Activos</i>
                 </Link>
-                <Link to="/arriendos?estado=terminados" className="btn btn-sm btn-danger">
+                <Link to="/arriendos/terminados" className="btn btn-sm btn-danger">
                     <i className="bi bi-calendar-x-fill">Terminados</i>
                 </Link>
 				<Link to="/arriendos" className="btn btn-sm btn-info">
@@ -50,10 +45,10 @@ export default function Arriendos (){
 					<Link to="/arriendos/crear"className="btn btn-primary">Nuevo arriendo</Link>
 				</div>
 			<div className="table-responsive">
-				<table className="table table-bordered table-striped table-hover">
-					<thead className="table-dark">
+				<table className="table table-striped table-hover">
+					<thead className="table-danger">
 						<tr>
-							<th>N°</th>
+							<th >N°</th>
 							<th>Rut</th>
 							<th>Fecha Inicio</th>
 							<th>Fecha Final</th>

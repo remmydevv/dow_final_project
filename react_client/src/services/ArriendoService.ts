@@ -1,10 +1,11 @@
-import axios from "axios"
+import axios from "../services/AxiosInstance"
 import {  ArriendoFormSchema, ArriendosActivosSchema, ArriendosSchema, ArriendosTerminadosSchema } from "../types/Arriendo"
 import { safeParse } from "valibot"
 
+
 export async function getArriendos(){
     try {
-        const url = `${import.meta.env.VITE_API_URL}/arriendos`  //invocamos endpoint
+        const url = '/arriendos'  //invocamos endpoint
         const {data:arriendos} = await axios.get(url)  //recibimos los datos en arriendos
         //valibot revisa esto con success
         const resultado = safeParse(ArriendosSchema, arriendos.data)  //revisamos q cumpla con la estructura deseada
@@ -26,7 +27,7 @@ export async function arriendoCrear(formData: ArriendoFormData){
     try {
         const resultado = safeParse(ArriendoFormSchema, formData)
         if(resultado.success){
-            const url = `${import.meta.env.VITE_API_URL}/arriendos`
+            const url = "/arriendos"
             await axios.post(url, resultado.output) /*{
                 patenteVehiculo: resultado.output.patenteVehiculo,
                 rutCliente: resultado.output.rutCliente,
@@ -36,6 +37,16 @@ export async function arriendoCrear(formData: ArriendoFormData){
                     // cuando en el formulario los datos tienen otro nombre a los de la api 
                 //})
             return{success:true}
+        }else{
+            const errores: Record<string, string[]> ={}
+            for(const issue of resultado.issues){
+                const campo = issue.path![0].key as string
+                if (!errores[campo]){
+                    errores[campo] = []
+                }
+                errores [campo].push(issue.message)
+            }
+            return {success: false, error: 'Error en el campo del formulario.', errores}
         }
     } catch (error) {
         return {success: false, error:'Error en la creacion de Arriendo!'}
@@ -44,7 +55,7 @@ export async function arriendoCrear(formData: ArriendoFormData){
 
 export async function getArriendosActivos(){
     try {
-        const url = `${import.meta.env.VITE_API_URL}/arriendos/activos`
+        const url = '/arriendos/activos'
         const {data:arriendos} = await axios.get(url)
 
         const resultado = safeParse(ArriendosActivosSchema, arriendos.data)
@@ -61,7 +72,7 @@ export async function getArriendosActivos(){
 
 export async function getArriendosTerminados(){
     try {
-        const url = `${import.meta.env.VITE_API_URL}/arriendos/terminados`
+        const url ='/arriendos/terminados'
         const {data:arriendos} = await axios.get(url)
 
         const resultado = safeParse(ArriendosTerminadosSchema, arriendos.data)
@@ -78,7 +89,7 @@ export async function getArriendosTerminados(){
 
 export async function borrarAriendo(arriendoId: number){
     try {
-        const url = `${import.meta.env.VITE_API_URL}/arriendos/${arriendoId}`
+        const url = `/arriendos/${arriendoId}`
         await axios.delete(url)
         return {success:true}
     } catch (error) {
@@ -88,7 +99,7 @@ export async function borrarAriendo(arriendoId: number){
 
 export async function devolverArriendo (arriendoId: number){
     try {
-        const url = `${import.meta.env.VITE_API_URL}/arriendos/${arriendoId}`
+        const url = `/arriendos/${arriendoId}`
         await axios.patch(url)
         return {success:true}
     } catch (error) {
